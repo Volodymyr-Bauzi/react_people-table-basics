@@ -27,7 +27,6 @@ const PersonLink = ({ person, lookup }: PersonLinkProps) => {
   return (
     <tr
       data-cy="person"
-      key={person.slug}
       className={cn({
         'has-background-warning': selected,
       })}
