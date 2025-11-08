@@ -4,9 +4,9 @@ import { Person } from '../types';
 import PeopleTable from '../components/PersonLink/PeopleTable';
 
 const PeoplePage = () => {
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch('https://mate-academy.github.io/react_people-table/api/people.json')
@@ -14,8 +14,8 @@ const PeoplePage = () => {
       .then(data => {
         setPeople(data);
       })
-      .catch(err => {
-        setError(err);
+      .catch(() => {
+        setError(true);
       })
       .finally(() => {
         setIsLoading(false);
@@ -44,7 +44,8 @@ const PeoplePage = () => {
             <p data-cy="noPeopleMessage">There are no people on the server</p>
           )}
 
-          {error && (
+          {/* Only show loading error after loading finished and an error actually occurred */}
+          {!isLoading && error && (
             <p data-cy="peopleLoadingError" className="has-text-danger">
               Something went wrong
             </p>
