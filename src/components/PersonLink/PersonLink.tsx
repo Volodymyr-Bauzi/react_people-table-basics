@@ -15,6 +15,15 @@ const PersonLink = ({ person, lookup }: PersonLinkProps) => {
   const mother = lookup(person.motherName || '');
   const father = lookup(person.fatherName || '');
 
+  const nameLink = (person: Person) => (
+    <Link
+      to={`../${person.slug}`}
+      className={cn({ 'has-text-danger': person.sex === 'f' })}
+    >
+      {person.name}
+    </Link>
+  );
+
   return (
     <tr
       data-cy="person"
@@ -23,39 +32,24 @@ const PersonLink = ({ person, lookup }: PersonLinkProps) => {
         'has-background-warning': selected,
       })}
     >
-      <td>
-        <Link
-          to={`../${person.slug}`}
-          className={cn({ 'has-text-danger': person.sex === 'f' })}
-        >
-          {person.name}
-        </Link>
-      </td>
+      <td>{nameLink(person)}</td>
 
       <td>{person.sex}</td>
       <td>{person.born}</td>
       <td>{person.died}</td>
       <td>
-        {person.fatherName ? (
-          father ? (
-            <Link to={`../${father.slug}`}>{person.fatherName}</Link>
-          ) : (
-            person.fatherName
-          )
-        ) : (
-          '-'
-        )}
+        {person.motherName
+          ? mother
+            ? nameLink(mother)
+            : person.motherName
+          : '-'}
       </td>
       <td>
-        {person.motherName ? (
-          mother ? (
-            <Link to={`../${mother.slug}`}>{person.motherName}</Link>
-          ) : (
-            person.motherName
-          )
-        ) : (
-          '-'
-        )}
+        {person.fatherName
+          ? father
+            ? nameLink(father)
+            : person.fatherName
+          : '-'}
       </td>
     </tr>
   );

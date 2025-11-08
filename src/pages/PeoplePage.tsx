@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Loader } from '../components/Loader';
 import { Person } from '../types';
-import PersonLink from '../components/PersonLink/PersonLink';
+import PeopleTable from '../components/PersonLink/PeopleTable';
 
 const PeoplePage = () => {
   const [people, setPeople] = useState([]);
@@ -32,48 +32,25 @@ const PeoplePage = () => {
     return <Loader />;
   }
 
-  if (!people.length) {
-    return <p data-cy="noPeopleMessage">There are no people on the server</p>;
-  }
-
-  if (error) {
-    return (
-      <p data-cy="peopleLoadingError" className="has-text-danger">
-        Something went wrong
-      </p>
-    );
-  }
-
   return (
     <>
       <h1 className="title">People Page</h1>
 
-      <table
-        data-cy="peopleTable"
-        className="table is-striped is-hoverable is-narrow is-fullwidth"
-      >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
-            <th>Mother</th>
-            <th>Father</th>
-          </tr>
-        </thead>
+      <div className="block">
+        <div className="box table-container">
+          {people.length > 0 && <PeopleTable people={people} byName={byName} />}
 
-        <tbody>
-          {people.length > 0 &&
-            people.map((person: Person) => (
-              <PersonLink
-                person={person}
-                key={person.slug}
-                lookup={name => byName[name]}
-              />
-            ))}
-        </tbody>
-      </table>
+          {people.length === 0 && (
+            <p data-cy="noPeopleMessage">There are no people on the server</p>
+          )}
+
+          {error && (
+            <p data-cy="peopleLoadingError" className="has-text-danger">
+              Something went wrong
+            </p>
+          )}
+        </div>
+      </div>
     </>
   );
 };
