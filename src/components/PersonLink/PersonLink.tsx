@@ -17,7 +17,7 @@ const PersonLink = ({ person, lookup }: PersonLinkProps) => {
 
   const nameLink = (human: Person) => (
     <Link
-      to={`../${human.slug}`}
+      to={`/people/${human.slug}`}
       className={cn({ 'has-text-danger': human.sex === 'f' })}
     >
       {human.name}
