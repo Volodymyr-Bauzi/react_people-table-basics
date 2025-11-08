@@ -15,12 +15,12 @@ const PersonLink = ({ person, lookup }: PersonLinkProps) => {
   const mother = lookup(person.motherName || '');
   const father = lookup(person.fatherName || '');
 
-  const nameLink = (person: Person) => (
+  const nameLink = (human: Person) => (
     <Link
-      to={`../${person.slug}`}
-      className={cn({ 'has-text-danger': person.sex === 'f' })}
+      to={`../${human.slug}`}
+      className={cn({ 'has-text-danger': human.sex === 'f' })}
     >
-      {person.name}
+      {human.name}
     </Link>
   );
 
